@@ -61,7 +61,7 @@
 require 'rest-client'
 require 'json'
 require 'pry'
-
+require_relative "../lib/command_line_interface.rb"
 
 def get_character_movies_from_api(character)
   counter = 1
@@ -79,7 +79,7 @@ def get_character_movies_from_api(character)
           return films
         end
       end
-      
+
       counter += 1
   end
 
@@ -93,14 +93,14 @@ def show_character_movies(character)
   all_titles = []
 
   if json_apis == nil
-    return "ERROR - enter a real character."
+    puts "ERROR - enter a real character."
+    return repeat()
   end
 
   json_apis.each do |json_api|
     film_hash = json_api_to_hash(json_api)
     all_titles << film_hash["title"]
   end
-
   all_titles
 end
 
@@ -123,4 +123,9 @@ def format_string(string)
   end
 
     formatted_string
+end
+
+def repeat()
+  character = get_character_from_user()
+  puts show_character_movies(character)
 end
